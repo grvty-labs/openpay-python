@@ -431,19 +431,19 @@ class Charge(CreateableAPIResource, ListableAPIResource,
         return url
 
     def refund(self, **params):
-        if 'merchant' in list(params.keys()):
-            self._as_merchant = True
+        if hasattr(params, 'merchant'):
+            self._as_merchant = params['merchant']
+            del params['merchant']
         else:
             self._as_merchant = False
 
-        del params['merchant']
         url = self.instance_url() + '/refund'
         self.refresh_from(self.request('post', url, params))
         return self
 
     def capture(self, **params):
-        if 'merchant' in list(params.keys()):
-            self._as_merchant = True
+        if hasattr(params, 'merchant'):
+            self._as_merchant = params['merchant']
             del params['merchant']
         else:
             self._as_merchant = False
