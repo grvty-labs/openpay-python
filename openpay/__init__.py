@@ -22,14 +22,13 @@ from openpay.error import (  # noqa
     OpenpayError, APIError, APIConnectionError, AuthenticationError, CardError,
     InvalidRequestError)
 
-
-#from openpay.resource import (
+# from openpay.resource import (
 #    convert_to_openpay_object, BaseObject, APIResource)
-#from openpay.util import logger
+# from openpay.util import logger
 
 import sys as _sys
-#import warnings as _warnings
-#from inspect import isclass as _isclass, ismodule as _ismodule
+# import warnings as _warnings
+# from inspect import isclass as _isclass, ismodule as _ismodule
 
 _dogetattr = object.__getattribute__
 _ALLOWED_ATTRIBUTES = (

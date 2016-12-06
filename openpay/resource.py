@@ -312,8 +312,8 @@ class UpdateableAPIResource(APIResource):
 
         if updated_params:
             updated_params = self.copy()
-            if ('balance' in list(updated_params.keys())
-                    and 'status' in list(updated_params.keys())):
+            if ('balance' in updated_params and
+                    'status' in updated_params):
                 updated_params.update({'status': None, 'balance': None})
             else:
                 updated_params.update({'status': None})
@@ -373,16 +373,9 @@ class Card(ListableAPIResource, UpdateableAPIResource,
 
     def instance_url(self):
         self.id = utf8(self.id)
-        if hasattr(self, 'customer'):
-            self.customer = utf8(self.customer)
-        else:
-            self.customer = utf8(self.customer_id)
-
-        base = Customer.class_url()
-        cust_extn = self.customer
+        self.customer = uft8(getattr(self, 'customer', self.customer_id))
         extn = quote_plus(self.id)
-
-        return "%s/%s/cards/%s" % (base, cust_extn, extn)
+        return "%s/%s/cards/%s" % (Customer.class_url(), self.customer, extn)
 
     @classmethod
     def retrieve(cls, id, api_key=None, **params):
@@ -399,34 +392,31 @@ class Charge(CreateableAPIResource, ListableAPIResource,
 
     @classmethod
     def clean_params(cls, params=None):
-        if params and params.get('customer', None) != None:
+        if params and params.get('customer', None) is not None:
             del params['customer']
-
         return params
 
     @classmethod
     def class_url(cls, params=None):
         merchant_id = openpay.merchant_id
         cls_name = cls.class_name()
-        if params and 'customer' in list(params.keys()):
+        if params and 'customer' in params:
             return "/v1/{0}/customers/{1}/{2}s".format(
-                merchant_id, params.get('customer'), cls_name)
+                merchant_id, params['customer'], cls_name)
         else:
             return "/v1/%s/%ss" % (merchant_id, cls_name)
 
     def instance_url(self):
         self.id = utf8(self.id)
 
-        if hasattr(self, '_as_merchant'):
-            base = Charge.class_url()
+        if getattr(self, '_as_merchant', False):
             extn = quote_plus(self.id)
-            url = "{0}/{1}".format(base, extn)
+            url = "{0}/{1}".format(Charge.class_url(), extn)
         else:
             self.customer = utf8(self.customer_id)
-            base = Customer.class_url()
-            cust_extn = self.customer
             extn = quote_plus(self.id)
-            url = "%s/%s/charges/%s" % (base, cust_extn, extn)
+            url = "%s/%s/charges/%s" % (
+                Customer.class_url(), self.customer, extn)
 
         return url
 
@@ -483,31 +473,20 @@ class Charge(CreateableAPIResource, ListableAPIResource,
     @classmethod
     def retrieve_as_merchant(cls, id):
         params = {}
-        if hasattr(cls, 'api_key'):
-            api_key = cls.api_key
-        else:
-            api_key = openpay.api_key
-
+        api_key = getattr(cls, 'api_key', openpay.api_key)
         cls._as_merchant = True
         requestor = api.APIClient(api_key)
-        url = cls.class_url()
-        id = utf8(id)
-        extn = quote_plus(id)
-        url = "%s/%s" % (url, extn)
+        uid = utf8(id)
+        url = "%s/%s" % (cls.class_url(), quote_plus(uid))
         response, api_key = requestor.request('get', url, params)
         return convert_to_openpay_object(response, api_key, 'charge')
 
     @classmethod
     def create_as_merchant(cls, **params):
-        if hasattr(cls, 'api_key'):
-            api_key = cls.api_key
-        else:
-            api_key = openpay.api_key
-
+        api_key = getattr(cls, 'api_key', openpay.api_key)
         requestor = api.APIClient(api_key)
-        url = cls.class_url()
         # charge over merchant
-        response, api_key = requestor.request('post', url, params)
+        response, api_key = requestor.request('post', cls.class_url(), params)
         return convert_to_openpay_object(response, api_key, 'charge')
 
 
@@ -619,27 +598,18 @@ class Payout(CreateableAPIResource, ListableAPIResource,
 
     @classmethod
     def create_as_merchant(cls, **params):
-        if hasattr(cls, 'api_key'):
-            api_key = cls.api_key
-        else:
-            api_key = openpay.api_key
-
+        api_key = getattr(cls, 'api_key', openpay.api_key)
         requestor = api.APIClient(api_key)
-        url = cls.class_url()
-        response, api_key = requestor.request('post', url, params)
+        response, api_key = requestor.request('post', cls.class_url(), params)
         return convert_to_openpay_object(response, api_key, 'payout')
 
     @classmethod
     def retrieve_as_merchant(cls, payout_id):
         params = {}
-        if hasattr(cls, 'api_key'):
-            api_key = cls.api_key
-        else:
-            api_key = openpay.api_key
+        api_key = getattr(cls, 'api_key', openpay.api_key)
 
         requestor = api.APIClient(api_key)
-        url = cls.class_url()
-        url = "{0}/{1}".format(url, payout_id)
+        url = "{0}/{1}".format(cls.class_url(), payout_id)
         response, api_key = requestor.request('get', url, params)
         return convert_to_openpay_object(response, api_key, 'payout')
 
@@ -652,13 +622,8 @@ class Subscription(DeletableAPIResource, UpdateableAPIResource):
 
     def instance_url(self):
         self.id = utf8(self.id)
-        if hasattr(self, 'customer'):
-            self.customer = utf8(self.customer)
-        else:
-            self.customer = utf8(self.customer_id)
-
-        base = Customer.class_url()
-        cust_extn = self.customer
+        self.customer = uft8(getattr(self, 'customer', self.customer_id))
         extn = quote_plus(self.id)
 
-        return "%s/%s/subscriptions/%s" % (base, cust_extn, extn)
+        return "%s/%s/subscriptions/%s" % (Customer.class_url(),
+                                           self.customer, extn)
