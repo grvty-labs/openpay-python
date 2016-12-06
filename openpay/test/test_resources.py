@@ -1,9 +1,9 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 from future.builtins import super
-#import json
+# import json
 import openpay
-#from openpay import util
+# from openpay import util
 
 from openpay.test.helper import (
     OpenpayUnitTestCase, OpenpayApiTestCase,
