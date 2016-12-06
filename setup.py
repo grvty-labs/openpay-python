@@ -32,7 +32,7 @@ if sys.version_info < (3, 0):
         install_requires.append('simplejson')
 
 setup(
-  name='openpay',
+  name='OpenpayGrvty',
   cmdclass={'build_py': build_py},
   version=VERSION,
   description='Openpay python bindings',
