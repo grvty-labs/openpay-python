@@ -10,20 +10,21 @@ Installation
 You don't need this source code unless you want to modify the package. If you just want use the Openpay
 Python bindings, you should run:
 
-    pip install openpay 
+    pip install OpenpayGrvty
 
 or
 
-    pip install openpay --udgrade
+    pip install OpenpayGrvty --upgrade
 
 See www.pip-installer.org/en/latest/index.html for instructions on installing pip.
 
 Implementation
 ==============
 
-#### Configuration ####
+Configuration
+-------------
 
-Before use the library will be necessary to set up your Merchant ID and Private key. 
+Before use the library will be necessary to set up your Merchant ID and Private key.
 
 ```python
 import openpay
@@ -34,9 +35,10 @@ openpay.merchant_id = "mynvbjhtzxdyfewlzmdo"
 openpay.production = True  # By default this works in sandbox mode
 ```
 
-#### Usage ####
+Usage
+-----
 
-##### Customer #####
+### Customer
 
 Once configured the library, you can use it to interact with Openpay API services. You can start creating a customer:
 
@@ -58,17 +60,17 @@ customer = openpay.Customer.create(
 )
 ```
 
-Once you have a customer, you have access to few resources for current customer. According to the current version 
+Once you have a customer, you have access to few resources for current customer. According to the current version
 of the Openpay API, these resources are:
 
-  - cards
-  - charges
-  - transfers
-  - payouts
-  - bank accounts
-  - subscriptions
+-   cards
+-   charges
+-   transfers
+-   payouts
+-   bank accounts
+-   subscriptions
 
-You can access all of these resources as public variables of the root instance (customer in this example), 
+You can access all of these resources as public variables of the root instance (customer in this example),
 so, if you want to add a new card you will be able to do it as follows:
 
 ```python
@@ -130,7 +132,7 @@ card = customer.cards.retrieve('kvxvccpsesm4pwmtgnjb')
 card.delete()
 ```
 
-###### Customer Transfers ######
+### Customer Transfers
 
 Get all customer transfers (inbound and outbound)
 
@@ -142,9 +144,9 @@ Create a customer transfer
 
 ```python
 transfer1 = customer.transfers.create(
-    customer_id="acuqxruyv0hi1wfdwmym", 
-    amount=100, 
-    description="Test transfer", 
+    customer_id="acuqxruyv0hi1wfdwmym",
+    amount=100,
+    description="Test transfer",
     order_id="oid-00059"
 )
 ```
@@ -155,14 +157,14 @@ Get specific transfer
 transfer2 = customer.transfers.retrieve(transfer1.id)
 ```
 
-###### Bank Accounts ######
+### Bank Accounts
 
 Add bank account to customer
 
 ```python
 bank_account = customer.bank_accounts.create(
-    clabe="032180000118359719", 
-    alias="Cuenta principal", 
+    clabe="032180000118359719",
+    alias="Cuenta principal",
     holder_name="Juan Perez"
 )
 ```
@@ -179,7 +181,7 @@ Get specific bank account
 account = customer.back_accounts.retrieve("bsbg7igxh3yukpu8t2q4")
 ```
 
-###### Subscriptions ######
+### Subscriptions
 
 Add subscription to customer
 
@@ -208,7 +210,7 @@ subscription.cancel_at_end_period = True
 subscription.save()
 ```
 
-###### Payouts ######
+### Payouts
 
 Add payout for customer
 
@@ -216,9 +218,9 @@ Add payout for customer
 bank_account = customer.bank_accounts.all()[0]  # We get the first account
 customer.payouts.create(
     method='bank_account',   # possible values ['bank_accunt', 'card']
-    destination_id=bank_account.id, 
-    amount="100", 
-    description="First payout", 
+    destination_id=bank_account.id,
+    amount="100",
+    description="First payout",
     order_id="oid-00058"
 )
 ```
@@ -235,18 +237,18 @@ Get specific payout
 customer.payouts.retrieve("tbs6a7g4pypww4eq640d")
 ```
 
-##### Plan #####
+### Plan
 
 Create new plan
 
 ```python
 plan = openpay.Plan.create(
-    amount=150.00, 
-    status_after_retry="cancelled", 
+    amount=150.00,
+    status_after_retry="cancelled",
     retry_times=2,
-    name="Curso de Ingles", 
-    repeat_unit="month", 
-    trial_days=30, 
+    name="Curso de Ingles",
+    repeat_unit="month",
+    trial_days=30,
     repeat_every=1
 )
 ```
@@ -272,7 +274,7 @@ plan = openpay.Plan.retrieve('pbkliysxavp8bvvp8f0k')
 plan.delete()
 ```
 
-##### Fee #####
+### Fee
 
 You may charge a fee as follows:
 
@@ -291,7 +293,8 @@ List all charged fees
 fees = openpay.Fee.all()
 ```
 
-#### Error handling ####
+Error handling
+--------------
 
 The Openpay API generates several types of errors depending on the situation,
 to handle this, the Python client has implemented four type of exceptions:
@@ -300,3 +303,31 @@ to handle this, the Python client has implemented four type of exceptions:
   - AuthenticationError: missing Private key
   - CardError: Transfer not accepted, Declined card, Expired card, Inssuficient funds, Stolen Card, Fraudulent card.
   - APIError: All other types API errors
+
+
+Owned by:
+--------
+
+[![Openpay][openpay-logo]][openpay-page]
+
+
+Forked from:
+--------
+
+[![Openpay Python](http://www.openpay.mx/img/github/python.jpg)][openpay-git]
+
+
+Edited by:
+--------
+
+[![StackShare][stack-shield]][stack-tech]
+
+
+[![GRVTYlabs][logo]](www.grvtylabs.com)
+
+[logo]: https://github.com/grvty-labs/openpay-python/blob/master/logo.png?raw=true "GRVTYlabs"
+[stack-shield]: http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat
+[stack-tech]: http://stackshare.io/letops/grvtylabs
+[openpay-git]: https://github.com/open-pay/openpay-python/
+[openpay-page]: http://www.openpay.mx/en/
+[openpay-logo]: http://www.openpay.mx/img/logo.png

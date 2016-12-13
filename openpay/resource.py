@@ -373,7 +373,7 @@ class Card(ListableAPIResource, UpdateableAPIResource,
 
     def instance_url(self):
         self.id = utf8(self.id)
-        self.customer = uft8(getattr(self, 'customer', self.customer_id))
+        self.customer = utf8(getattr(self, 'customer', self.customer_id))
         extn = quote_plus(self.id)
         return "%s/%s/cards/%s" % (Customer.class_url(), self.customer, extn)
 
@@ -612,7 +612,7 @@ class Subscription(DeletableAPIResource, UpdateableAPIResource):
 
     def instance_url(self):
         self.id = utf8(self.id)
-        self.customer = uft8(getattr(self, 'customer', self.customer_id))
+        self.customer = utf8(getattr(self, 'customer', self.customer_id))
         extn = quote_plus(self.id)
 
         return "%s/%s/subscriptions/%s" % (Customer.class_url(),
