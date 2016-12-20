@@ -166,10 +166,10 @@ class BaseObject(dict):
         ident_parts = [type(self).__name__]
 
         if isinstance(self.get('object'), str):
-            ident_parts.append(self.get('object').encode('utf-8'))
+            ident_parts.append(utf8(self.get('object')))
 
         if isinstance(self.get('id'), str):
-            ident_parts.append('id=%s' % (self.get('id').encode('utf8'),))
+            ident_parts.append('id=%s' % utf8(self.get('id')))
 
         return '<%s at %s> JSON: %s' % (
             ' '.join(ident_parts), hex(id(self)), str(self))
