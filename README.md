@@ -1,4 +1,4 @@
-![Openpay Python](http://www.openpay.mx/img/github/python.jpg)
+[![Openpay Python][openpay-python-logo]][openpay-page]
 
 Python Client for Openpay API Services
 
@@ -7,8 +7,8 @@ This is a client implementing the payment services for Openpay at www.openpay.mx
 Installation
 =============
 
-You don't need this source code unless you want to modify the package. If you just want use the Openpay
-Python bindings, you should run:
+You don't need this source code unless you want to edit the package. If you
+want to use the Openpay Python bindings, you should run:
 
     pip install OpenpayGrvty
 
@@ -320,14 +320,18 @@ Forked from:
 Edited by:
 --------
 
+
 [![StackShare][stack-shield]][stack-tech]
 
 
-[![GRVTYlabs][logo]](www.grvtylabs.com)
+[![GRVTY][logo]](http://grvty.digital)
 
-[logo]: https://github.com/grvty-labs/openpay-python/blob/master/logo.png?raw=true "GRVTYlabs"
+
+[logo]: http://grvty.digital/images/logos/repos-logo-1.png?raw=true "GRVTY"
 [stack-shield]: http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat
-[stack-tech]: http://stackshare.io/letops/grvtylabs
+[stack-tech]: http://stackshare.io/grvty/grvty
+
+[openpay-python-logo]: http://www.openpay.mx/img/github/python.jpg
 [openpay-git]: https://github.com/open-pay/openpay-python/
 [openpay-page]: http://www.openpay.mx/en/
 [openpay-logo]: http://www.openpay.mx/img/logo.png
