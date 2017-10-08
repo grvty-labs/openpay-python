@@ -580,7 +580,18 @@ class Transfer(CreateableAPIResource, UpdateableAPIResource,
 
 class BankAccount(CreateableAPIResource, UpdateableAPIResource,
                   DeletableAPIResource, ListableAPIResource):
-    pass
+    def instance_url(self):
+        self.id = utf8(self.id)
+        if hasattr(self, 'customer'):
+            self.customer = utf8(self.customer)
+        else:
+            self.customer = utf8(self.customer_id)
+
+        base = Customer.class_url()
+        cust_extn = self.customer
+        extn = quote_plus(self.id)
+
+        return "%s/%s/bank_accounts/%s" % (base, cust_extn, extn)
 
 
 class Payout(CreateableAPIResource, ListableAPIResource,
