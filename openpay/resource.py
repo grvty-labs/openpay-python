@@ -591,7 +591,7 @@ class BankAccount(CreateableAPIResource, UpdateableAPIResource,
         cust_extn = self.customer
         extn = quote_plus(self.id)
 
-        return "%s/%s/bank_accounts/%s" % (base, cust_extn, extn)
+        return "%s/%s/bankaccounts/%s" % (base, cust_extn, extn)
 
 
 class Payout(CreateableAPIResource, ListableAPIResource,
